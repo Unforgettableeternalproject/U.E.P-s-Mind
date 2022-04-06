@@ -2,6 +2,7 @@ const express = require("express");
 const app = express()
 const Database = require("@replit/database")
 const db = new Database()
+const token = process.env['token']
 
 app.listen(4076, () => {
   console.log("U.E.P is awake owo!");
@@ -28,7 +29,6 @@ for(file of commands){
 }
 
 client.on("messageCreate", message => {
-  
   if(message.content.startsWith(prefix)){
     const args = message.content.toLowerCase().slice(prefix.length).trim().split(/ +/g)
     const commandName = args.shift()
@@ -55,4 +55,4 @@ client.on("messageCreate", message => {
   
 })
 
-client.login(process.env.token);
+client.login(token);

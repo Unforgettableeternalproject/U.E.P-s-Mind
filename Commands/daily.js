@@ -1,7 +1,7 @@
 const Database = require("@replit/database");
 const db = new Database();
 const Discord = require("discord.js");
-const timeout = 8640000;
+const timeout = 86400000;
 
 exports.run = async (client, message, args) => {
   const check = await db.get(`daily_${message.author.id}`);
@@ -32,12 +32,13 @@ exports.run = async (client, message, args) => {
     .setColor("#c5ad09")
     .setAuthor(message.author.username, message.author.displayAvatarURL())
     .setThumbnail(message.author.displayAvatarURL())
-    .addField("U.E.Point", `+${reward} U.E.Points! You currently have ${display+reward} U.E.Point(s)`)
-    .setFooter("You can get U.E.Points via typing >daily, and E.X.Points are earned thro  ugh special events.")
+    .addField("U.E.Point", `<:U_:961257545916366918> +${reward} U.E.Points! You currently have ${display+reward} U.E.Point(s)`)
+    .setFooter("You can get U.E.Points via typing >daily, and E.X.Points are earned through special events.")
     .setTimestamp()
     message.channel.send({embeds:[da]})
     await db.set(`UEPoint_${message.author.id}`, currentbalance + reward)
     await db.set(`daily_${message.author.id}`, Date.now())
+    await db.set(`foulCount_${message.author.id}`, 0)
   }
 }
 

@@ -12,6 +12,7 @@ exports.run = async (client, message, args) => {
     .setTitle("U.E.P's little counting game")
     .setThumbnail("https://media.discordapp.net/attachments/406441438054711297/960929875974303784/U.E.P-.png?width=676&height=676")
     .addField("Below is the variable I will be counting", "Current number: " + cot.toString())
+    .setColor("#c5ad09")
     .setFooter("It's fun, right?", "")
     message.channel.send({embeds:[count]})
 }

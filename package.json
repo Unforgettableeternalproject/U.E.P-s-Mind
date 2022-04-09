@@ -10,9 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/voice": "^0.8.0",
     "@replit/database": "^2.0.1",
+    "adapter": "^1.0.0-beta.10",
+    "discord-api-types": "^0.31.0",
     "discord.js": "^13.6.0",
     "express": "^4.17.3",
+    "ffmpeg": "^0.0.4",
+    "ffmpeg-static": "^4.4.1",
     "pretty-ms": "^7.0.1"
   },
   "devDependencies": {

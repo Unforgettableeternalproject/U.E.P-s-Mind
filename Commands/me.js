@@ -6,7 +6,8 @@ exports.run = (client, message, args) => {
     .setThumbnail(message.author.displayAvatarURL())
     .setColor("#c5ad09")
     .setDescription("Uhh...A human person is good, yes, I love humans, they are cute, you are cute too...I guess?")
-    .setFooter("okay I guess this is enough cya next time!")
+    .setFooter(`Your discord ID is ${message.author.id} by the way.`)
+    //.setFooter("okay I guess this is enough cya next time!")
     message.channel.send({embeds:[me]})
 }
 

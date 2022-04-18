@@ -39,10 +39,14 @@ for(file of functions){
     client.commands.set(functionName, function_)
 }
 
+client.on('ready', client => {
+    client.channels.cache.get('965479112611352576').send('This is my special place! You can talk to me here whenever you want!').then((client) => client.pin());
+})
+
 client.on("messageCreate", async message => {
     let foulCount = await db.get(`foulCount_${message.author.id}`)
   
-    if(usersMap.has(message.author.id) && !(message.author.id === "960860193913188382")) {
+    if(usersMap.has(message.author.id) && !message.author.bot) {
         console.log(usersMap.get(message.author.id).msgCount)
         let userData = usersMap.get(message.author.id);
         const { lastMessage, timer } = userData;
@@ -96,24 +100,29 @@ client.on("messageCreate", async message => {
     }
   }
 
-  if(message.content.startsWith(prefix)){
-    const args = message.content.toLowerCase().slice(prefix.length).trim().split(/ +/g)
-    const commandName = args.shift()
-    const command = client.commands.get(commandName)
-    if(!command) return message.channel.send({content:"I am aware you are calling me perhaps, but I don't recognize what you're talking. @_@"})
-    command.run(client, message, args)
-  }
-  else{
-    if(!(message.author.username === "U.E.P") &&   (message.content.toLowerCase().includes('uep') || message.content.toLowerCase().includes('u.e.p'))){
+  if(!message.author.bot && (message.content.toLowerCase().includes('uep') || message.content.toLowerCase().includes('u.e.p'))){
       if(!message.content.startsWith(prefix) && (message.content.toLowerCase() === "uep" || message.content.toLowerCase() === "u.e.p")){
         client.commands.get("uep_").run(client, message, [''])
       }
       else{
         client.commands.get("uepAlternate_").run(client, message, [''])
       }  
-    }
   }
-  
+
+  if(!message.author.bot && (message.channel.id === '965479112611352576')){
+    if(message.content.startsWith(prefix)){
+      const args = message.content.toLowerCase().slice(prefix.length).trim().split(/ +/g)
+      const commandName = args.shift()
+      const command = client.commands.get(commandName)
+      if(!command) return message.channel.send({content:"I am aware you are calling me perhaps, but I don't recognize what you're talking. @_@"})
+      command.run(client, message, args)
+    }
+    else return
+  }
+  else{
+    if(message.author.bot) return
+    if(!(message.channel.id === '965479112611352576')) return message.channel.send("In case not to make any mess, please call me in my place only. o((>ω< ))o")
+  } 
 })
 
 client.login(process.env.token)

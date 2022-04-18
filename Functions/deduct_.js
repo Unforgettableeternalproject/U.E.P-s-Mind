@@ -7,7 +7,6 @@ exports.run = async (client, message, args) => {
     let bills
     let mi
     let currentbalance = await db.get(`UEPoint_${message.author.id}`)
-    let display = currentbalance
     let foulCount = await db.get(`foulCount_${message.author.id}`)
     
     if(parseInt(foulCount) < 2) bills = 2
@@ -34,8 +33,10 @@ exports.run = async (client, message, args) => {
         return message.channel.send("Alright, " + message.author.username + ", you have been grounded.")
       }
     }
+
+    if(currentbalance-bills < 0) display = 0
+    else display = currentbalance-bills
     
-    if(display === null) display = 0
 
     if(args[0] === 'Foul'){
         console.log("-++--")
@@ -44,7 +45,7 @@ exports.run = async (client, message, args) => {
         .setColor("DARK_RED")
         .setAuthor(message.author.username, message.author.displayAvatarURL())
         .setThumbnail(message.author.displayAvatarURL())
-        .addField("U.E.Point", `<:U_:961257545916366918> -${bills} U.E.Points! You currently have ${display-bills} U.E.Point(s)`)
+        .addField("U.E.Point", `<:U_:961257545916366918> -${bills} U.E.Points! You currently have ${display} U.E.Point(s)`)
         .setFooter("You will lose U.E.Points by saying foul words, so please be well-behaved.")
         .setTimestamp()
     }
@@ -55,13 +56,14 @@ exports.run = async (client, message, args) => {
         .setColor("DARK_RED")
         .setAuthor(message.author.username, message.author.displayAvatarURL())
         .setThumbnail(message.author.displayAvatarURL())
-        .addField("U.E.Point", `<:U_:961257545916366918> -${bills} U.E.Points! You currently have ${display-bills} U.E.Point(s)`)
+        .addField("U.E.Point", `<:U_:961257545916366918> -${bills} U.E.Points! You currently have ${display} U.E.Point(s)`)
         .setFooter("You will lose U.E.Points by spamming too much, so please be well-behaved.")
         .setTimestamp()
     }
     
     message.channel.send({embeds:[mi]})
-    await db.set(`UEPoint_${message.author.id}`, currentbalance - bills)
+    if(currentbalance-bills >= 0) await db.set(`UEPoint_${message.author.id}`, currentbalance - bills)
+    else await db.set(`UEPoint_${message.author.id}`, 0)
 }
 
 exports.name = "muep"
